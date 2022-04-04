@@ -16,6 +16,7 @@ MONGODB_DB=${MONGODB_DB:-}
 MONGODB_USER=${MONGODB_USER:-}
 MONGODB_PASSWORD=${MONGODB_PASSWORD:-}
 MONGODB_OPLOG=${MONGODB_OPLOG:-}
+MONGODB_URI=${MONGODB_URI:-}
 SLACK_ALERTS=${SLACK_ALERTS:-}
 SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
 SLACK_CHANNEL=${SLACK_CHANNEL:-}
@@ -45,8 +46,9 @@ backup() {
     cmd_oplog_part="--oplog"
   fi
 
-  cmd="mongodump --host=\"$MONGODB_HOST\" --port=\"$MONGODB_PORT\" $cmd_auth_part $cmd_db_part $cmd_oplog_part --gzip --archive=$BACKUP_DIR/$archive_name"
-  echo "starting to backup MongoDB host=$MONGODB_HOST port=$MONGODB_PORT"
+  # cmd="mongodump --host=\"$MONGODB_HOST\" --port=\"$MONGODB_PORT\" $cmd_auth_part $cmd_db_part $cmd_oplog_part --gzip --archive=$BACKUP_DIR/$archive_name"
+  cmd="mongodump --uri $MONGODB_URI --gzip --archive=$BACKUP_DIR/$archive_name"
+  echo "starting to backup MongoDB"
   eval "$cmd"
 }
 
